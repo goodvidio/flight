@@ -1,8 +1,8 @@
 "use strict";
 
+var compose = require('../../lib/compose');
 var defineComponent = require('../../lib/component');
 var utils = require('../../lib/utils');
-var compose = require('../../lib/compose');
 
 describe('(Core) mixin', function () {
 

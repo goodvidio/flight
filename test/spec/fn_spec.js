@@ -1,7 +1,7 @@
 "use strict";
 
-var defineComponent = require('../../lib/component');
 var advice = require('../../lib/advice');
+var defineComponent = require('../../lib/component');
 
 var Component = (function () {
   return defineComponent(function fnTest() {

@@ -1,8 +1,8 @@
 "use strict";
 
+var debug = require('../../lib/debug');
 var defineComponent = require('../../lib/component');
 var utils = require('../../lib/utils');
-var debug = require('../../lib/debug');
 
 describe('(Core) utils', function () {
 

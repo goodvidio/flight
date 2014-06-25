@@ -1,7 +1,7 @@
 "use strict";
 
-var defineComponent = require('../../lib/component');
 var debug = require('../../lib/debug');
+var defineComponent = require('../../lib/component');
 
 var instance;
 var Component;

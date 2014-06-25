@@ -1,8 +1,7 @@
 "use strict";
 
-var flight = require('../..');
-var defineComponent = flight.component;
-var advice = flight.advice;
+var advice = require('../../lib/advice');
+var defineComponent = require('../../lib/component');
 
 var Component = (function () {
   return defineComponent(function fnTest() {
