@@ -99,7 +99,7 @@ var flight = require('flightjs');
 var myObj = require('test/myObj');
 
 // add advice functions to myObj
-flight.compose.mixin(myObj, [flight.advice.withAdvice]);
+flight.advice.withAdvice.call(myObj);
 
 // augment print function
 myObj.after('print', function() {

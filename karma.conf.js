@@ -56,13 +56,6 @@ module.exports = function (config) {
 
     // Auto run tests on start (when browsers are captured) and exit
     // CLI --single-run --no-single-run
-    singleRun: false,
-
-    plugins: [
-      'karma-chrome-launcher',
-      'karma-commonjs',
-      'karma-firefox-launcher',
-      'karma-jasmine'
-    ]
+    singleRun: false
   });
 };

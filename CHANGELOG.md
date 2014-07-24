@@ -1,3 +1,26 @@
+## v1.2.0 (6/20/2014)
+
+###features
+* New `this.attributes()` API for setting attributes
+* Allows override by other mixins
+* Ignores attributes passed by attachedTo unless declared in component
+* Requires null attributes to be overriden
+* Old `this.defaultAttrs` API still works but deprecated  
+https://github.com/flightjs/flight/pull/150  
+https://github.com/flightjs/flight/pull/270
+ 
+
+
+###bug fixes and tweaks
+* Optimize Arguments to Array util  
+https://github.com/flightjs/flight/pull/268
+* Add Component.mixin docs  
+https://github.com/flightjs/flight/pull/246
+* Fix attribute behavior when using Component.mixin  
+https://github.com/flightjs/flight/pull/253   
+https://github.com/flightjs/flight/pull/270
+
+
 ## v1.1.4 (4/18/2014)
 
 ###features

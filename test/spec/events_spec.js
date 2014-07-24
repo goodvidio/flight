@@ -3,6 +3,8 @@
 var defineComponent = require('../../lib/component');
 var registry = require('../../lib/registry');
 
+"use strict";
+
 describe("(Core) events", function () {
   var Component = (function () {
     function testComponent() {
@@ -106,7 +108,7 @@ describe("(Core) events", function () {
     var instance = (new Component).initialize(window.outerDiv);
     var data = {actor: 'Brent Spiner'};
 
-    // Declare an event proxy from 'sourceEvent' â†’ 'targetEvent'
+    // Declare an event proxy from 'sourceEvent' → 'targetEvent'
     instance.on('sourceEvent', 'targetEvent');
 
     var spy = jasmine.createSpy();
@@ -218,9 +220,8 @@ describe("(Core) events", function () {
     expect(spy2).toHaveBeenCalled();
   });
 
-  it('does not unbind event handlers which share a node but were registered by different instances', function () {
+  it('does not unbind event handlers which share a node and were registered by the same instance', function () {
     var instance1 = (new Component).initialize(window.outerDiv);
-    var instance2 = (new Component).initialize(window.anotherDiv);
     var spy1 = jasmine.createSpy();
     instance1.on(document, 'event1', spy1);
     var spy2 = jasmine.createSpy();
@@ -228,6 +229,19 @@ describe("(Core) events", function () {
     instance1.off(document, 'event1', spy1);
     instance1.trigger('event1');
     expect(spy2).toHaveBeenCalled();
+  });
+
+  it('does not unbind event handlers which share a node but were registered by different instances', function () {
+    var instance1 = (new Component).initialize(window.outerDiv);
+    var instance2 = (new Component).initialize(window.anotherDiv);
+    var spy1 = jasmine.createSpy();
+    instance1.on(document, 'event', spy1);
+    var spy2 = jasmine.createSpy();
+    instance2.on(document, 'event', spy2);
+    instance2.off(document, 'event');
+    instance1.trigger('event');
+    expect(spy1).toHaveBeenCalled();
+    expect(spy2).not.toHaveBeenCalled();
   });
 
   it('bubbles custom events between components', function () {
@@ -332,6 +346,20 @@ describe("(Core) events", function () {
 
     instance.trigger({ type: 'foo', defaultBehavior: spy });
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('merges eventData into triggered default behavior event data', function () {
+    var instance = (new Component).initialize(document.body, { eventData: { penguins: 'cool', sheep: 'dull' } });
+    var data = { sheep: 'thrilling' };
+
+    var spy = jasmine.createSpy();
+    instance.trigger({ type: 'foo', defaultBehavior: spy }, data);
+    var args = spy.mostRecentCall.args;
+    var returnedData = args[1];
+    expect(returnedData.penguins).toBeDefined();
+    expect(returnedData.penguins).toBe('cool');
+    expect(returnedData.sheep).toBeDefined();
+    expect(returnedData.sheep).toBe('thrilling');
   });
 
 });

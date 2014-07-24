@@ -1,6 +1,6 @@
 {
   "name": "flightjs",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "files": [
     "index.js",
     "lib"
@@ -9,7 +9,7 @@
     "jquery": "^2.1.1"
   },
   "devDependencies": {
-    "karma": "<=0.11.14",
+    "karma": "~0.12.6",
     "karma-chrome-launcher": "~0.1.0",
     "karma-cli": "0.0.4",
     "karma-commonjs": "0.0.9",

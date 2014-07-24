@@ -85,6 +85,17 @@ describe('(Core) this.attributes', function() {
 
     TestComponent.teardownAll();
   });
+
+  it('can override attributes from a mixin when write-lock engaged', function() {
+    debug.enable(true);
+    var TestComponent = defineComponent(testComponentDefaultAttrs, withOverriddenAttributes);
+    var instance = (new TestComponent).initialize(document.body);
+    expect(instance.attr.core).toBe(1);
+    expect(instance.attr.extra).toBe(38);
+    debug.enable(false);
+
+    TestComponent.teardownAll();
+  });
 });
 
 describe('(Core) this.defaultAttrs', function() {
