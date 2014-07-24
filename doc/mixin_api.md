@@ -33,7 +33,7 @@ In the Component definition, pass the required mixins as arguments to the
 `flight.component` function:
 
 ```js
-var flight = require('flight');
+var flight = require('flightjs');
 var withDialog = require('mixins/with_dialog');
 var withDropdown = require('mixins/with_dropdown');
 
@@ -52,7 +52,7 @@ you ever need to apply a mixin to something other than a component (e.g. to
 another mixin), you can invoke `compose.mixin` directly:
 
 ```js
-var flight = require('flight');
+var flight = require('flightjs');
 var withPositioning = require('mixins/with_positioning');
 
 function withDialog() {
@@ -95,7 +95,7 @@ having to add these mixins to every component, you can use them to create a
 base component (`components/base`) which all other components will extend.
 
 ```js
-var flight = require('flight');
+var flight = require('flightjs');
 var withTouchScreen = require('mixins/with_touchscreen');
 var withCustomTrigger = require('mixins/with_custom_trigger');
 

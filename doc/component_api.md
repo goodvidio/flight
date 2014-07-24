@@ -32,7 +32,7 @@ Component:
 ```js
 /* my_simple_component.js */
 
-var flight = require('flight');
+var flight = require('flightjs');
 var withMyMixin = require('with_my_mixin');
 
 module.exports = flight.component(mySimpleComponent, withMyMixin);
@@ -61,7 +61,7 @@ method deletes every instance of every Component and all their event
 bindings.
 
 ```js
-var flight = require('flight');
+var flight = require('flightjs');
 
 module.exports = flight.component(navigationMenu);
 

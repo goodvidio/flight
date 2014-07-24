@@ -95,7 +95,7 @@ var myObj = {
 ```
 
 ```js
-var flight = require('flight');
+var flight = require('flightjs');
 var myObj = require('test/myObj');
 
 // add advice functions to myObj
