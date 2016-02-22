@@ -23,6 +23,14 @@ define(['lib/component', 'lib/debug'], function (defineComponent, debug) {
       this.attributes({core: 1, extra: 38});
     }
 
+    function testComponentWithFunctionAttribute() {
+      this.attributes({
+        f: function() {
+          return this.node.nodeName.toLowerCase() == 'body';
+        }
+      });
+    }
+
     it('adds core defaults', function () {
       var TestComponent = defineComponent(testComponentDefaultAttrs);
       var instance = (new TestComponent).initialize(document.body);
@@ -81,6 +89,29 @@ define(['lib/component', 'lib/debug'], function (defineComponent, debug) {
       var instance = (new TestComponent).initialize(document.body);
       expect(instance.attr.core).toBe(1);
       expect(instance.attr.extra).toBe(38);
+
+      TestComponent.teardownAll();
+    });
+
+    it('can override attributes from a mixin when write-lock engaged', function() {
+      debug.enable(true);
+      var TestComponent = defineComponent(testComponentDefaultAttrs, withOverriddenAttributes);
+      var instance = (new TestComponent).initialize(document.body);
+      expect(instance.attr.core).toBe(1);
+      expect(instance.attr.extra).toBe(38);
+      debug.enable(false);
+
+      TestComponent.teardownAll();
+    });
+
+    it('will evaluate attributes that are functions at initialize time', function() {
+      var TestComponent = defineComponent(testComponentWithFunctionAttribute);
+
+      var instance = (new TestComponent).initialize(document.body);
+      expect(instance.attr.f).toBe(true);
+
+      var instance2 = (new TestComponent).initialize($('div').get(0));
+      expect(instance2.attr.f).toBe(false);
 
       TestComponent.teardownAll();
     });

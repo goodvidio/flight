@@ -105,7 +105,7 @@ define(['lib/component', 'lib/registry'], function (defineComponent, registry) {
       var instance = (new Component).initialize(window.outerDiv);
       var data = {actor: 'Brent Spiner'};
 
-      // Declare an event proxy from 'sourceEvent' â†’ 'targetEvent'
+      // Declare an event proxy from 'sourceEvent' → 'targetEvent'
       instance.on('sourceEvent', 'targetEvent');
 
       var spy = jasmine.createSpy();
@@ -172,7 +172,7 @@ define(['lib/component', 'lib/registry'], function (defineComponent, registry) {
       var spy = jasmine.createSpy();
       instance1.on(document, 'event1', spy);
       var boundCb = registry.findInstanceInfo(instance1).events.filter(function(e) {
-        return e.type=="event1"
+        return e.type == "event1"
        })[0].callback;
       instance1.off(document, 'event1', boundCb);
       instance1.trigger('event1');
@@ -185,7 +185,7 @@ define(['lib/component', 'lib/registry'], function (defineComponent, registry) {
       instance1.on(document, 'event1', spy);
       instance1.on(document, 'event2', spy);
       var boundCb = registry.findInstanceInfo(instance1).events.filter(function(e) {
-        return e.type=="event1"
+        return e.type == "event1"
        })[0].callback;
       instance1.off(document, 'event1', boundCb);
       instance1.trigger('event2');
@@ -210,9 +210,20 @@ define(['lib/component', 'lib/registry'], function (defineComponent, registry) {
       var spy2 = jasmine.createSpy();
       instance1.on(document, 'event1', spy2);
       var boundCb = registry.findInstanceInfo(instance1).events.filter(function(e) {
-        return e.type=="event1"
+        return e.type == "event1"
       })[0].callback;
       instance1.off(document, 'event1', boundCb);
+      instance1.trigger('event1');
+      expect(spy2).toHaveBeenCalled();
+    });
+
+    it('does not unbind event handlers which share a node and were registered by the same instance', function () {
+      var instance1 = (new Component).initialize(window.outerDiv);
+      var spy1 = jasmine.createSpy();
+      instance1.on(document, 'event1', spy1);
+      var spy2 = jasmine.createSpy();
+      instance1.on(document, 'event1', spy2);
+      instance1.off(document, 'event1', spy1);
       instance1.trigger('event1');
       expect(spy2).toHaveBeenCalled();
     });
@@ -221,12 +232,13 @@ define(['lib/component', 'lib/registry'], function (defineComponent, registry) {
       var instance1 = (new Component).initialize(window.outerDiv);
       var instance2 = (new Component).initialize(window.anotherDiv);
       var spy1 = jasmine.createSpy();
-      instance1.on(document, 'event1', spy1);
+      instance1.on(document, 'event', spy1);
       var spy2 = jasmine.createSpy();
-      instance1.on(document, 'event1', spy2);
-      instance1.off(document, 'event1', spy1);
-      instance1.trigger('event1');
-      expect(spy2).toHaveBeenCalled();
+      instance2.on(document, 'event', spy2);
+      instance2.off(document, 'event');
+      instance1.trigger('event');
+      expect(spy1).toHaveBeenCalled();
+      expect(spy2).not.toHaveBeenCalled();
     });
 
     it('bubbles custom events between components', function () {
@@ -331,6 +343,20 @@ define(['lib/component', 'lib/registry'], function (defineComponent, registry) {
 
       instance.trigger({ type: 'foo', defaultBehavior: spy });
       expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('merges eventData into triggered default behavior event data', function () {
+      var instance = (new Component).initialize(document.body, { eventData: { penguins: 'cool', sheep: 'dull' } });
+      var data = { sheep: 'thrilling' };
+
+      var spy = jasmine.createSpy();
+      instance.trigger({ type: 'foo', defaultBehavior: spy }, data);
+      var args = spy.mostRecentCall.args;
+      var returnedData = args[1];
+      expect(returnedData.penguins).toBeDefined();
+      expect(returnedData.penguins).toBe('cool');
+      expect(returnedData.sheep).toBeDefined();
+      expect(returnedData.sheep).toBe('thrilling');
     });
 
   });

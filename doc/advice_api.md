@@ -108,15 +108,16 @@ define(function() {
 
   return myObj;
 });
+```
 
+```js
 // import myObj and augment it
 define(function(require) {
-  var advice = require('flight/lib/advice');
-  var compose = require('flight/lib/compose');
+  var flight = require('flight');
   var myObj = require('test/myObj');
 
   // add advice functions to myObj
-  compose.mixin(myObj, [advice.withAdvice]);
+  flight.advice.withAdvice.call(myObj);
 
   // augment print function
   myObj.after('print', function() {
