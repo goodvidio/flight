@@ -6,7 +6,7 @@
     "build/flight.js"
   ],
   "devDependencies": {
-    "jscs" : "^1.5.8",
+    "jscs": "^1.5.8",
     "karma": "~0.12.6",
     "karma-cli": "0.0.4",
     "karma-jasmine": "~0.1.0",
@@ -37,5 +37,8 @@
     "type": "git",
     "url": "http://github.com/flightjs/flight.git"
   },
-  "homepage": "http://github.com/flightjs/flight"
+  "homepage": "http://github.com/flightjs/flight",
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
 }
